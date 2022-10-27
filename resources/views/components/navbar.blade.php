@@ -5,9 +5,9 @@
     <div class="navbar-center hidden lg:flex">
       <ul class="menu menu-horizontal p-0">
           <li><a href="{{ route('debt.create') }}">Create</a></li>
-          <li><a>Ping</a></li>
-          <li><a href="{{ route('user.history')}}">History</a></li>
-          <li><a href="{{ route('user.debts')}}">Your Debts</a></li>
+          <li><a href="{{ route('ping.index') }}">Ping</a></li>
+          <li><a href="{{ route('user.history') }}">History</a></li>
+          <li><a href="{{ route('user.debts') }}">Your Debts</a></li>
         <li><a href="{{ route('user.leaderboard')}}">Leaderboard</a></li>
       </ul>
     </div>

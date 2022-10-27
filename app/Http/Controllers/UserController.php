@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $data = User::query()
                 ->join('debts', 'users.id', '=', 'debts.to_id')
@@ -18,7 +18,9 @@ class UserController extends Controller
                 ->where('debts.deleted_at', '=', null)
                 ->get(['users.name','users.id as uid', 'debts.amount as amount', 'debts.description', 'debts.id as did']);
 
-        return view('dashboard', compact('data'));
+        $notifications = Auth::user()->unreadNotifications;
+
+        return view('dashboard', compact('data', 'notifications'));
     }
 
     public function getList(Request $request)
@@ -37,6 +39,40 @@ class UserController extends Controller
            $response[] = array(
                 "id"=>$employee->id,
                 "text"=>$employee->name
+           );
+        }
+
+        return response()->json($response);
+    }
+
+    public function debtorList(Request $request)
+    {
+        $search = $request->search;
+
+        if($search == ''){
+            $users = User::query()
+            ->join('debts', 'users.id', '=', 'debts.to_id')
+            ->where('debts.from_id', '=', Auth::id())
+            ->where('debts.deleted_at', '=', null)
+            ->orderBy('name', 'ASC')
+            ->get(['users.name','users.id as id']);
+        }else{
+           $users = User::query()
+           ->join('debts', 'users.id', '=', 'debts.to_id')
+           ->where('debts.from_id', '=', Auth::id())
+           ->where('debts.deleted_at', '=', null)
+           ->where('name', 'like', '%' .$search . '%')
+           ->limit(10)
+           ->orderBy('name', 'ASC')
+           ->get(['users.name','users.id as id']);
+        }
+
+        $response = array();
+
+        foreach($users as $user){
+           $response[] = array(
+                "id"=>$user->id,
+                "text"=>$user->name
            );
         }
 
@@ -73,5 +109,17 @@ class UserController extends Controller
         ->paginate(7);
 
         return view('leaderboard', compact('users'));
+    }
+
+    public function markNotification(Request $request)
+    {
+        User::find(Auth::id())
+        ->unreadNotifications
+        ->when($request->input('id'), function ($query) use ($request) {
+            return $query->where('id', $request->input('id'));
+        })
+        ->markAsRead();
+
+        return response()->noContent();
     }
 }

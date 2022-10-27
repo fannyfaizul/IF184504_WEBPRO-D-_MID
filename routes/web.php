@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DebtController;
+use App\Http\Controllers\PingController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -26,12 +27,19 @@ Route::middleware(['auth', 'verified'])->group(function () {
     ->prefix('user')
     ->as('user.')
     ->group(function () {
+        Route::post('mark-notif', 'markNotification')->name('mark-notification');
         Route::get('home', 'index')->name('index');
-        Route::post('find', 'getList')->name('list');
         Route::get('history', 'history')->name('history');
         Route::get('debts', 'debts')->name('debts');
         Route::get('leaderboard', 'leaderboard')->name('leaderboard');
+
+        Route::post('find', 'getList')->name('list');
+        Route::post('debtor-list', 'debtorList')->name('debtor-list');
+
     });
+
+    Route::get('ping', fn() => view('ping'))->name('ping.index');
+    Route::post('ping', [PingController::class, 'store'])->name('ping.store');
 });
 
 
