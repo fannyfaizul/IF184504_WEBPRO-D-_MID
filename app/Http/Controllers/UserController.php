@@ -6,6 +6,7 @@ use App\Models\Debt;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -61,6 +62,13 @@ class UserController extends Controller
 
     public function leaderboard()
     {
+        $users = User::query()
+        ->join('debts', 'users.id', '=', 'debts.to_id')
+        ->select('users.name', 'users.id', DB::raw('sum(debts.amount) as total'))
+        ->groupBy('users.name', 'users.id')
+        ->orderBy('total', 'desc')
+        ->paginate(7);
 
+        return view('leaderboard', compact('users'));
     }
 }
