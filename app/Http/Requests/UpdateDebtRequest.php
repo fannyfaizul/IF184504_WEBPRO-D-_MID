@@ -13,7 +13,7 @@ class UpdateDebtRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,8 @@ class UpdateDebtRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'amount' => ['required', 'numeric'],
+            'description' => ['required', 'string', 'max:100'],
         ];
     }
 }

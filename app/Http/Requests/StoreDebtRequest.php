@@ -13,7 +13,7 @@ class StoreDebtRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,22 @@ class StoreDebtRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'amount' => ['required', 'numeric'],
+            'description' => ['required', 'string', 'max:100'],
+            'to_id' => ['required', 'exists:App\Models\User,id']
+        ];
+    }
+
+    /**
+     * Get the custom error messages for the defined validation rules.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'to_id.required' => 'Please fill this field with the selected user',
+            'to_id.exists' => 'Unknown user'
         ];
     }
 }

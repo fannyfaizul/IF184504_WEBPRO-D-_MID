@@ -5,19 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Debt;
 use App\Http\Requests\StoreDebtRequest;
 use App\Http\Requests\UpdateDebtRequest;
+use Illuminate\Support\Facades\Auth;
 
 class DebtController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -25,7 +16,7 @@ class DebtController extends Controller
      */
     public function create()
     {
-        //
+        return view('debt.create');
     }
 
     /**
@@ -36,7 +27,13 @@ class DebtController extends Controller
      */
     public function store(StoreDebtRequest $request)
     {
-        //
+        $req = $request->validated();
+
+        $req['from_id'] = Auth::id();
+
+        Debt::create($req);
+
+        return redirect()->route('user.index');
     }
 
     /**
@@ -47,7 +44,7 @@ class DebtController extends Controller
      */
     public function show(Debt $debt)
     {
-        //
+        return view('debt.show', compact('debt'));
     }
 
     /**
@@ -58,7 +55,7 @@ class DebtController extends Controller
      */
     public function edit(Debt $debt)
     {
-        //
+        return view('debt.edit', compact('debt'));
     }
 
     /**
@@ -70,7 +67,13 @@ class DebtController extends Controller
      */
     public function update(UpdateDebtRequest $request, Debt $debt)
     {
-        //
+        $req = $request->validated();
+
+        Debt::where('id', $debt->id)->update($req);
+
+        // $debt->update
+
+        return redirect()->route('debt.show', $debt->id);
     }
 
     /**
@@ -81,6 +84,8 @@ class DebtController extends Controller
      */
     public function destroy(Debt $debt)
     {
-        //
+        $debt->delete();
+
+        return redirect()->route('user.index');
     }
 }

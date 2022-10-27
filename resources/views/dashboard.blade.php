@@ -1,22 +1,30 @@
 <x-main>
-    <div class="container mx-auto bg-gray-100 h-screen">
+    <div class="container mx-auto h-screen">
         <x-navbar />
 
-        <section class="mt-10">
-            <h3 class="text-center normal-case text-4xl font-bold text-gray-900 mb-5">Debt List</h3>
-
-            <div class="grid grid-cols-2 grid-flow-row gap-4 md:grid-cols-3 xl:grid-cols-4">
-                <x-card name="Fany" debt="200Triliun"/>
-                <x-card name="Fany" debt="201Triliun"/>
-                <x-card name="Fany" debt="202Triliun"/>
-                <x-card name="Fany" debt="203Triliun"/>
-                <x-card name="Fany" debt="204Triliun"/>
-                <x-card name="Fany" debt="205Triliun"/>
-                <x-card name="Fany" debt="206Triliun"/>
-                <x-card name="Fany" debt="207Triliun"/>
-                <x-card name="Fany" debt="208Triliun"/>
-
+        <section class="mt-4">
+            @if($data->isEmpty())
+            <div class="mx-auto text-center mt-[50%] md:mt-[40%] lg:mt-[20%]">
+                <h1 class="text-5xl font-bold">No One Debts To You</h1>
+                <p class="text-xl py-6">either you have no money, or you're just a stingy person &#128541</p>
             </div>
+            @else
+                <div class="mb-8">
+                    <h3 class="normal-case text-4xl font-bold text-gray-900">Debt List</h3>
+                    <h6 class="normal-case text-xl font-semibold text-gray-900">Here is the people that has debts to you.</h6>
+                </div>
+
+                <div class="grid grid-cols-2 grid-flow-row gap-4 md:grid-cols-3 xl:grid-cols-4">
+                    @foreach ($data as $d)
+                        <x-card
+                            name="{{ $d->name }}"
+                            amount="{{ $d->amount }}"
+                            linkto="{{ route('debt.show', ['debt' => $d->did]) }}"
+                        />
+                    @endforeach
+                </div>
+            @endif
+
         </section>
     </div>
 </x-main>

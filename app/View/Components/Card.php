@@ -6,18 +6,20 @@ use Illuminate\View\Component;
 
 class Card extends Component
 {
+    public $linkto;
     public $name;
-    public $debt;
+    public $amount;
 
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($name, $debt)
+    public function __construct($linkto, $name, $amount)
     {
+        $this->linkto = $linkto;
+        $this->amount = $amount;
         $this->name = $name;
-        $this->debt = $debt;
     }
 
     /**
