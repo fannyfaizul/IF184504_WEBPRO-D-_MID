@@ -42,7 +42,6 @@
     <div class="modal">
     <div class="modal-box">
         <h3 class="font-bold text-lg">Description</h3>
-        <p class="py-4">{{ $d->description }}</p>
         <div class="modal-action">
         <label for="my-modal" class="btn btn-primary">Close</label>
         </div>
