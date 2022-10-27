@@ -14,7 +14,7 @@
                     <div class="btn-group">
                         @if(Route::has('login'))
                             @auth
-                                <a href="{{ url('/dashboard') }}" class="btn lg:btn-lg md:btn-md bg-gray-900 text-white">Explore</a>
+                                <a href="{{ url('/user/home') }}" class="btn lg:btn-lg md:btn-md bg-gray-900 text-white">Explore</a>
                             @else
                                 <a href="{{ route('login') }}" class="btn bg-indigo-600 lg:btn-lg md:btn-md btn-active">Login</a>
                                 @if(Route::has('register'))
