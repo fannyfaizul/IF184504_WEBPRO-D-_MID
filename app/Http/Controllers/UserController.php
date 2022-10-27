@@ -42,4 +42,25 @@ class UserController extends Controller
         return response()->json($response);
     }
 
+
+    public function history()
+    {
+        $data = User::query()
+        ->join('debts', 'users.id', '=', 'debts.to_id')
+        ->where('debts.from_id', '=', Auth::id())
+        ->where('debts.deleted_at', '!=', null)
+        ->get(['users.name', 'debts.amount', 'debts.description', 'debts.deleted_at']);
+
+        return view('history', compact('data'));
+    }
+
+    public function debts()
+    {
+        return view('your-debts');
+    }
+
+    public function leaderboard()
+    {
+
+    }
 }

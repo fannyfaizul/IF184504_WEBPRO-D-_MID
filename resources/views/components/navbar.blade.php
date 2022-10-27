@@ -6,9 +6,9 @@
       <ul class="menu menu-horizontal p-0">
           <li><a href="{{ route('debt.create') }}">Create</a></li>
           <li><a>Ping</a></li>
-          <li><a>History</a></li>
-          <li><a>Your Debts</a></li>
-        <li><a>Leaderboard</a></li>
+          <li><a href="{{ route('user.history')}}">History</a></li>
+          <li><a href="{{ route('user.debts')}}">Your Debts</a></li>
+        <li><a href="{{ route('user.leaderboard')}}">Leaderboard</a></li>
       </ul>
     </div>
     <div class="navbar-end">

@@ -20,9 +20,18 @@ Route::get('/', function () {
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/home', [UserController::class, 'index'])->name('user.index');
     Route::resource('debt', DebtController::class)->except(['index']);
-    Route::post('/user/find', [UserController::class, 'getList'])->name('user.list');
+
+    Route::controller(UserController::class)
+    ->prefix('user')
+    ->as('user.')
+    ->group(function () {
+        Route::get('home', 'index')->name('index');
+        Route::post('find', 'getList')->name('list');
+        Route::get('history', 'history')->name('history');
+        Route::get('debts', 'debts')->name('debts');
+        Route::get('leaderboard', 'leaderboard')->name('leaderboard');
+    });
 });
 
 
