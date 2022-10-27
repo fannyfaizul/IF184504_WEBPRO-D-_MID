@@ -51,4 +51,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Debt::class, 'to_id');
     }
+
+    public function allDebts()
+    {
+        return $this->hasMany(Debt::class, 'to_id')->withTrashed();
+    }
 }

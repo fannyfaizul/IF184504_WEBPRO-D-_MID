@@ -4,7 +4,7 @@
 
         <div class="text-center my-8">
             <h3 class="normal-case text-4xl font-bold text-gray-900 text-center">Leaderboard</h3>
-            <p class="text-xl py-6">leaderboard for those who debts the most</p>
+            <p class="text-xl py-6">leaderboard for all users who debts the most</p>
         </div>
 
         @if($users->isEmpty())

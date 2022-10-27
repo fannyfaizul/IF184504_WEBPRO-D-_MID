@@ -33,7 +33,9 @@
                 @endforeach
               </tbody>
             </table>
-          </div>
+
+            {{ $data->links() }}
+        </div>
     </div>
 
     <input type="checkbox" id="my-modal" class="modal-toggle" />
